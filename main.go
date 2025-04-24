@@ -36,14 +36,15 @@ func PongMiddleware(next http.HandlerFunc) http.HandlerFunc {
 }
 
 func WebhookHandler(w http.ResponseWriter, r *http.Request) {
-	var d any
-	if err := json.NewDecoder(r.Body).Decode(&d); err != nil {
+
+	data, err := io.ReadAll(r.Body)
+	if err != nil {
 		fmt.Println(err.Error())
 		w.WriteHeader(400)
 		w.Write([]byte(err.Error()))
 		return
 	}
-	fmt.Println(d)
+	fmt.Println(string(data))
 	fmt.Println()
 	fmt.Println()
 
